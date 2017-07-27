@@ -309,21 +309,33 @@
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    // var args = Array.prototype.slice.call(arguments);
+    // var objs = Array.prototype.slice.call(obj);
+    // var tempObj = {};
+    // var objKeys = Object.keys(obj);
+    // var argumentKeys = Object.keys(arguments[i]);
     for (var i = 0; i < arguments.length; i++){
-      //console.log('obj key: ' + Object.keys(obj));
-      //console.log('obj key: ' + Object.keys(arguments[i]));
+      // console.log('obj key: ' + Object.keys(obj));
+      // console.log('obj key: ' + Object.keys(arguments[i]));
       //console.log('obj.length'+obj.length);
-      if(obj.size !== arguments[i].size){
-        //console.log('obj and argument length different')
-        for(var j = 0; j < arguments[i].length; j++){
+      // if(objKeys[i]===argumentKeys[i]){
+      //   tempObj[objKeys[i]] = obj[objKeys[i]];
+      // }else{
+      //
+      // }
+      // if(obj.size !== arguments[i].size){
+      //   console.log('obj and argument length different')
+      //   for(var j = 0; j < arguments[i].length; j++){
+      //
+      //     if(JSON.stringify(Object.keys(obj[j]))!==JSON.stringify(Object.keys(arguments[i][j]))){
+      //       obj = Object.assign(obj[j],arguments[i][j]);
+      //     }
+      //   }
+      // }
+      //   //console.log('EARLY RETURNNNN')
+      //   return obj;
+      // }else{
 
-          if(JSON.stringify(Object.keys(obj[j]))!==JSON.stringify(Object.keys(arguments[i][j]))){
-            obj = Object.assign(obj[j],arguments[i][j]);
-          }
-        }
-        //console.log('EARLY RETURNNNN')
-        return obj;
-      }else{
         if(JSON.stringify(Object.keys(obj))===JSON.stringify(Object.keys(arguments[i]))){
 
 
@@ -332,7 +344,7 @@
           //console.log('ARGUMENTS: '+ JSON.stringify(arguments));
           obj = Object.assign(obj,arguments[i]);
         }
-      }
+      //}
 
 
     }
@@ -430,8 +442,8 @@
     delete splitArg[1];
     splitArg = Object.values(splitArg);
     splitArg.shift();
-    console.log(JSON.stringify(splitArg));
-    console.log(JSON.stringify(arguments));
+    // console.log(JSON.stringify(splitArg));
+    // console.log(JSON.stringify(arguments));
       setInterval(
         function(){ func(splitArg[0], splitArg[1]) },
         wait
@@ -461,7 +473,7 @@
     // Pick a remaining element...
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex -= 1;
-
+    //SHUFFLE METHOD IS COURTESY OF Fisher-Yates SHUFFLE POSTED ON STACK-OVERFLOW
     // And swap it with the current element.
     temporaryValue = slicedArray[currentIndex];
     slicedArray[currentIndex] = slicedArray[randomIndex];
