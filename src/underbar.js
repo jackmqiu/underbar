@@ -155,6 +155,7 @@
         maintainedArray.push(iterator(collection[i], i, collection));
       }
     }else{
+      var maintainedArray = [];
       for (var i in collection){
 
         maintainedArray.push(iterator(collection[i], i, collection));
@@ -295,12 +296,52 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+    var accum = {};
+    for (var i = 0; i < arguments.length; i++){
+      obj = Object.assign(obj,arguments[i]);
+      var objS = JSON.stringify(obj);
+      //console.log('OBJ: ' + objS);
+    }
+
+    return obj;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    for (var i = 0; i < arguments.length; i++){
+      //console.log('obj key: ' + Object.keys(obj));
+      //console.log('obj key: ' + Object.keys(arguments[i]));
+      //console.log('obj.length'+obj.length);
+      if(obj.size !== arguments[i].size){
+        //console.log('obj and argument length different')
+        for(var j = 0; j < arguments[i].length; j++){
+
+          if(JSON.stringify(Object.keys(obj[j]))!==JSON.stringify(Object.keys(arguments[i][j]))){
+            obj = Object.assign(obj[j],arguments[i][j]);
+          }
+        }
+        //console.log('EARLY RETURNNNN')
+        return obj;
+      }else{
+        if(JSON.stringify(Object.keys(obj))===JSON.stringify(Object.keys(arguments[i]))){
+
+
+        }else{
+          //console.log('OBJ: '+ JSON.stringify(obj));
+          //console.log('ARGUMENTS: '+ JSON.stringify(arguments));
+          obj = Object.assign(obj,arguments[i]);
+        }
+      }
+
+
+    }
+
+    //console.log('Post Assign:' + JSON.stringify(obj));
+
+    return obj;
   };
+
 
 
   /**
@@ -343,6 +384,35 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    var alreadyCalled = false;
+    var result;
+    var argumentList = [];
+    var resultsList = [];
+
+
+    // TIP: We'll return a new function that delegates to the old one, but only
+    // if it hasn't been called before.
+    return function() {
+      //if (!alreadyCalled) {
+        // TIP: .apply(this, arguments) is the standard way to pass on all of the
+        // infromation from one function call to another.
+
+        for (var i in argumentList){
+          if (JSON.stringify(arguments) === JSON.stringify(argumentList[i])) {
+            return resultsList[i];
+          }
+        }
+
+        result = func.apply(this, arguments);
+        argumentList.push(arguments);
+        resultsList.push(result);
+        //alreadyCalled = true;
+        return result;
+
+      //}
+      // The new function always returns the originally computed result.
+
+    };
   };
 
   // Delays a function for the given number of milliseconds, and then calls
@@ -351,8 +421,24 @@
   // The arguments for the original function are passed after the wait
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
+  // var sayFuck = function(){
+  //   console.log("fuck");
+  // }
   _.delay = function(func, wait) {
+    //setTimeout(func(arguments), wait*1000);
+    var splitArg = arguments;
+    delete splitArg[1];
+    splitArg = Object.values(splitArg);
+    splitArg.shift();
+    console.log(JSON.stringify(splitArg));
+    console.log(JSON.stringify(arguments));
+      setInterval(
+        function(){ func(splitArg[0], splitArg[1]) },
+        wait
+      );
+
   };
+  //_.delay(sayFuck, 500);
 
 
   /**
@@ -366,6 +452,23 @@
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+    var slicedArray = array.slice(0, array.length);
+    var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = slicedArray[currentIndex];
+    slicedArray[currentIndex] = slicedArray[randomIndex];
+    slicedArray[randomIndex] = temporaryValue;
+  }
+
+  return slicedArray;
   };
 
 
