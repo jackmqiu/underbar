@@ -309,41 +309,35 @@
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
-    // var args = Array.prototype.slice.call(arguments);
-    // var objs = Array.prototype.slice.call(obj);
-    // var tempObj = {};
-    // var objKeys = Object.keys(obj);
-    // var argumentKeys = Object.keys(arguments[i]);
-    for (var i = 0; i < arguments.length; i++){
-      // console.log('obj key: ' + Object.keys(obj));
-      // console.log('obj key: ' + Object.keys(arguments[i]));
-      //console.log('obj.length'+obj.length);
-      // if(objKeys[i]===argumentKeys[i]){
-      //   tempObj[objKeys[i]] = obj[objKeys[i]];
-      // }else{
-      //
-      // }
-      // if(obj.size !== arguments[i].size){
-      //   console.log('obj and argument length different')
-      //   for(var j = 0; j < arguments[i].length; j++){
-      //
-      //     if(JSON.stringify(Object.keys(obj[j]))!==JSON.stringify(Object.keys(arguments[i][j]))){
-      //       obj = Object.assign(obj[j],arguments[i][j]);
-      //     }
-      //   }
-      // }
-      //   //console.log('EARLY RETURNNNN')
-      //   return obj;
-      // }else{
+    var argumentKey;
+    var args = Array.prototype.slice.call(arguments);
+    console.log('obj: ' + JSON.stringify(obj));
+    console.log('args: ' + JSON.stringify(args));
 
-        if(JSON.stringify(Object.keys(obj))===JSON.stringify(Object.keys(arguments[i]))){
-
+    for (var i = 1; i < arguments.length; i++){
+      for(var j = 0; j < Object.keys(args[i]).length; j++){
+        console.log('args[i]: ' + JSON.stringify(args[i]));
+        argumentKey = Object.keys(args[i])[j];
+        console.log('argumentKey: '+ argumentKey);
+        if(Object.keys(obj)[j]===argumentKey){
 
         }else{
-          //console.log('OBJ: '+ JSON.stringify(obj));
-          //console.log('ARGUMENTS: '+ JSON.stringify(arguments));
-          obj = Object.assign(obj,arguments[i]);
+          console.log('obj being updated');
+          console.log('obj: ' + JSON.stringify(obj));
+          console.log('args[i][argumentKey]: ' + JSON.stringify(args[i][argumentKey]));
+          obj[argumentKey] = args[i][argumentKey];
+          console.log('obj post addition: ' + JSON.stringify(obj));
         }
+      }
+
+        // if(JSON.stringify(Object.keys(obj))===JSON.stringify(Object.keys(arguments[i]))){
+        //
+        //
+        // }else{
+        //   //console.log('OBJ: '+ JSON.stringify(obj));
+        //   //console.log('ARGUMENTS: '+ JSON.stringify(arguments));
+        //   obj = Object.assign(obj,arguments[i]);
+        // }
       //}
 
 
